@@ -45,6 +45,7 @@ export const usePermissionStore = defineStore('permission', {
           .sort((a, b) => a.order - b.order)
         if (!menuItem.children.length) delete menuItem.children
       }
+      console.log(menuItem)
       return menuItem
     },
     generateRoute(item, parentKey) {

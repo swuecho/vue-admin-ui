@@ -53,6 +53,7 @@ function handleMenuSelect(key, item) {
       },
     })
   } else {
+    console.log(item)
     router.push(item.path)
   }
 }
