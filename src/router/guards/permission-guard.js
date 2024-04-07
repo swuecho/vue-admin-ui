@@ -15,6 +15,7 @@ export function createPermissionGuard(router) {
   router.beforeEach(async (to) => {
     const authStore = useAuthStore()
     const token = authStore.accessToken
+    console.log(token)
 
     /** 没有token */
     if (!token) {

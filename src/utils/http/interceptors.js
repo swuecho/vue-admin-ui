@@ -37,6 +37,10 @@ export function setupInterceptors(axiosInstance) {
       if (SUCCESS_CODES.includes(data?.code)) {
         return Promise.resolve(data)
       }
+      if (response.status === 200 || response.status === 201 || response.status === 204) {
+        console.log(response)
+        return Promise.resolve(data)
+      }
       const code = data?.code ?? status
 
       // 根据code处理对应的操作，并返回处理后的message
