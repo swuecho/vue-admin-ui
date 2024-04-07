@@ -2,6 +2,13 @@
   <CommonPage show-footer>
     <n-data-table striped :columns="columns" :data="data" :loading="loading" :cascade="false" allow-checking-not-loaded
       @load="onLoad" />
+
+    <n-drawer v-model:show="showDrawer" :default-width="502" resizable >
+    <n-drawer-content :title="upc" closable>
+      <h4>{{  product }}</h4>
+      <br/>
+    </n-drawer-content>
+    </n-drawer>
   </CommonPage>
 </template>
 
@@ -43,7 +50,22 @@ const columns: DataTableColumns = [
             }
           },
           { default: () => 'ASIN' }
-        )]
+        ),
+        h(
+          NButton,
+          {
+            size: 'small',
+            onClick: () => {
+              // @ts-ignore
+              showDrawer.value = true
+              upc.value = row.upc
+              product.value = row.product
+              
+            }
+          },
+          { default: () => 'SHOW' }
+        )
+      ]
       } else {
         return h(
           NButton,
@@ -62,6 +84,9 @@ const columns: DataTableColumns = [
 ]
 const data = ref([]);
 const loading = ref(true)
+const showDrawer=ref(false)
+const upc = ref('')
+const product = ref('')
 
 onMounted(async () => {
   try {
