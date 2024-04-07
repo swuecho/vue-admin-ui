@@ -15,6 +15,7 @@ const loading = ref(true)
 const columns: DataTableColumns = [
   { title: 'Desc', key: 'description' },
   { title: 'Name', key: 'name' },
+  //@ts-ignore
   { title: 'Value', key: 'value', render(row: Parameter, index: number) {
       return h(NInput, {
         value: row.value,
@@ -106,14 +107,15 @@ async function deleteRow(row: any) {
 
 <template>
   <CommonPage show-footer>
+    <template #action>
+    
+      <HoverButton @click="dialogVisible = true">
+          <i class="i-fe:plus mr-4 text-18" /> 添加新参数
+      </HoverButton>
+    </template>
     <NModal v-model:show="dialogVisible" title="add" preset="dialog">
       <AddParameterForm @new-row-added="addRow" />
     </NModal>
-    <div class="flex justify-end">
-      <HoverButton @click="dialogVisible = true">
-          <i class="i-fe:plus" />
-      </HoverButton>
-    </div>
     <NDataTable :columns="columns" :data="data" :loading="loading" />
   </CommonPage>
 </template>
