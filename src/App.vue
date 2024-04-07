@@ -14,6 +14,7 @@
     :theme="appStore.isDark ? darkTheme : undefined"
     :theme-overrides="appStore.naiveThemeOverrides"
   >
+  <n-dialog-provider>
     <router-view v-if="Layout" v-slot="{ Component, route: curRoute }">
       <component :is="Layout">
         <KeepAlive :include="keepAliveNames">
@@ -23,6 +24,8 @@
 
       <LayoutSetting class="fixed right-12 top-1/2 z-999" />
     </router-view>
+  </n-dialog-provider>
+
   </n-config-provider>
 </template>
 

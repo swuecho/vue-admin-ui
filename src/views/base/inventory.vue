@@ -1,6 +1,6 @@
 <template>
   <CommonPage show-footer>
-    <n-data-table :columns="columns" :data="data" :loading="loading" :cascade="false" allow-checking-not-loaded
+    <n-data-table striped :columns="columns" :data="data" :loading="loading" :cascade="false" allow-checking-not-loaded
       @load="onLoad" />
   </CommonPage>
 </template>
@@ -36,6 +36,7 @@ const loading = ref(true)
 onMounted(async () => {
   try {
     const response = await request.get('/inventory_group/');
+    // @ts-ignore
     const inventory_data = response.results;
     for (let inv of inventory_data) {
       inv.isLeaf = false
@@ -52,8 +53,6 @@ onMounted(async () => {
 
 
 async function onLoad(row: Record<string, unknown>) {
-  console.log('onload')
-  console.log(row)
 
   try {
     const response = await request.get('/inventorys/', { params: { upc: row.upc } });
