@@ -134,6 +134,10 @@ async function createHardware(value: Hardware) {
   return result
 }
 
+async function createAsinEntries(value: Hardware) {
+  let result = await request.post('/standard_product_asin/', { upc: value.upc})
+  return result
+}
 
 async function createInventoryExtra(value: any) {
   let result = await request.post('/inventory_extras/', value)
@@ -144,6 +148,7 @@ const submitHardwareForm = async () => {
   // Handle form submission logic here
   console.log('Form submitted:', formModel.value);
   await createHardware(formModel.value)
+  await createAsinEntries(formModel.value)
 };
 
 const submitCostForm = async () => {
