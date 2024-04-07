@@ -45,28 +45,6 @@
           </template>
         </n-input>
 
-        <div class="mt-20 flex items-center">
-          <n-input
-            v-model:value="loginInfo.captcha"
-            class="h-40 items-center"
-            palceholder="请输入验证码"
-            :maxlength="4"
-            @keydown.enter="handleLogin()"
-          >
-            <template #prefix>
-              <i class="i-fe:key mr-12 opacity-20" />
-            </template>
-          </n-input>
-          <img
-            v-if="captchaUrl"
-            :src="captchaUrl"
-            alt="验证码"
-            height="40"
-            class="ml-12 w-80 cursor-pointer"
-            @click="initCaptcha"
-          />
-        </div>
-
         <n-checkbox
           class="mt-20"
           :checked="isRemember"
@@ -77,15 +55,6 @@
         <div class="mt-20 flex items-center">
           <n-button
             class="h-40 flex-1 rounded-5 text-16"
-            type="primary"
-            ghost
-            @click="quickLogin()"
-          >
-            一键体验
-          </n-button>
-
-          <n-button
-            class="ml-32 h-40 flex-1 rounded-5 text-16"
             type="primary"
             :loading="loading"
             @click="handleLogin()"
@@ -116,22 +85,11 @@ const loginInfo = ref({
   password: '',
 })
 
-const captchaUrl = ref('')
-const initCaptcha = throttle(() => {
-  captchaUrl.value = '/api/auth/captcha?' + Date.now()
-}, 500)
 
 const localLoginInfo = lStorage.get('loginInfo')
 if (localLoginInfo) {
   loginInfo.value.username = localLoginInfo.username || ''
   loginInfo.value.password = localLoginInfo.password || ''
-}
-initCaptcha()
-
-function quickLogin() {
-  loginInfo.value.username = 'admin'
-  loginInfo.value.password = '123456'
-  handleLogin(true)
 }
 
 const isRemember = useStorage('isRemember', true)
@@ -139,11 +97,11 @@ const loading = ref(false)
 async function handleLogin(isQuick) {
   const { username, password, captcha } = loginInfo.value
   if (!username || !password) return $message.warning('请输入用户名和密码')
-  if (!isQuick && !captcha) return $message.warning('请输入验证码')
   try {
     loading.value = true
     $message.loading('正在验证，请稍后...', { key: 'login' })
     const { data } = await api.login({ username, password: password.toString(), captcha, isQuick })
+    console.log(data)
     if (isRemember.value) {
       lStorage.set('loginInfo', { username, password })
     } else {
@@ -163,13 +121,17 @@ async function handleLogin(isQuick) {
 }
 
 async function onLoginSuccess(data = {}) {
-  authStore.setToken(data)
+  console.log("loggin success", data.access)
+  authStore.setToken({ accessToken: data.access})
+  console.log(authStore.accessToken)
   $message.loading('登录中...', { key: 'login' })
   try {
     $message.success('登录成功', { key: 'login' })
+    console.log(route.query)
     if (route.query.redirect) {
       const path = route.query.redirect
       delete route.query.redirect
+      console.log(route.query)
       router.push({ path, query: route.query })
     } else {
       router.push('/')
