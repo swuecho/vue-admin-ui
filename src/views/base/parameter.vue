@@ -3,8 +3,8 @@ import { ref, h, onMounted } from 'vue'
 import { DataTableColumns, NButton, NInput } from 'naive-ui'
 import { request } from '@/utils';
 import { NDataTable, NModal, useDialog } from 'naive-ui'
-import AddParameterForm from '@/components/AddParameterForm.vue';
-import { HoverButton, SvgIcon } from '@/components/common'
+import { HoverButton } from '@/components/common'
+import { AddParameterForm } from '@/components/common';
 
 
 const dialog = useDialog()
@@ -39,9 +39,8 @@ const columns: DataTableColumns = [
         },
         {
           default: () => {
-            return h(SvgIcon, {
-              class: 'text-xl',
-              icon: 'material-symbols:delete',
+            return h('div', {
+              class: 'i-fe:trash-2',
             })
           },
         },
@@ -112,9 +111,7 @@ async function deleteRow(row: any) {
     </NModal>
     <div class="flex justify-end">
       <HoverButton @click="dialogVisible = true">
-        <span class="text-xl">
-          <SvgIcon icon="material-symbols:library-add-rounded" />
-        </span>
+          <i class="i-fe:plus" />
       </HoverButton>
     </div>
     <NDataTable :columns="columns" :data="data" :loading="loading" />

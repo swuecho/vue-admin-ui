@@ -11,10 +11,9 @@ function handleClick() {
 </script>
 
 <template>
-  <button
-    class="flex items-center justify-center w-10 h-10 transition rounded-full hover:bg-neutral-100 dark:hover:bg-[#414755]"
+  <n-button type="default"
     @click="handleClick"
   >
     <slot />
-  </button>
+  </n-button>
 </template>
