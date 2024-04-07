@@ -4,7 +4,7 @@
       <n-tab-pane name="hardware" tab="硬件">
         <n-form ref="form" :model="formModel">
           <n-form-item label="UPC" path="upc">
-            <n-input v-model:value="formModel.upc"  placeholder="从库存页面进入会自动带上UPC"/>
+            <n-input v-model:value="formModel.upc" placeholder="从库存页面进入会自动带上UPC" />
           </n-form-item>
 
           <n-form-item label="CPU型号" path="cpuModel">
@@ -86,7 +86,7 @@ const formCostModel = ref({
 });
 
 
-async function getHardwareByUpc(name:string) {
+async function getHardwareByUpc(name: string) {
   try {
     const response = await request.get(`/hardwares/${name}/`);
     // @ts-ignore
@@ -96,7 +96,7 @@ async function getHardwareByUpc(name:string) {
   }
 }
 
-async function getInventoryExtraByUpc(name:string) {
+async function getInventoryExtraByUpc(name: string) {
   try {
     const response = await request.get(`/inventory_extras/${name}/`);
     // @ts-ignore
@@ -119,7 +119,7 @@ onMounted(async () => {
     // @ts-ignore
     formCostModel.value = existingInventoryExtra
   }
-  
+
 })
 // const rules = ref({
 //   upc: [{ required: true, message: 'Please enter UPC号', trigger: 'blur' }],
@@ -134,6 +134,10 @@ async function createHardware(value: Hardware) {
   return result
 }
 
+async function createAsinEntries(value: Hardware) {
+  let result = await request.post('/standard_product_asin/', { upc: value.upc})
+  return result
+}
 
 async function createInventoryExtra(value: any) {
   let result = await request.post('/inventory_extras/', value)
@@ -144,6 +148,7 @@ const submitHardwareForm = async () => {
   // Handle form submission logic here
   console.log('Form submitted:', formModel.value);
   await createHardware(formModel.value)
+  await createAsinEntries(formModel.value)
 };
 
 const submitCostForm = async () => {
