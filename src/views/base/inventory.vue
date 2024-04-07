@@ -9,7 +9,7 @@
 </template>
 
 <script setup>
-defineOptions({ name: 'DemoInventory' })
+defineOptions({ name: 'Inventory' })
 
 const inputVal = ref('')
 const number = ref(0)
