@@ -9,6 +9,8 @@
 import { ref, h, onMounted } from 'vue'
 import { DataTableColumns, NButton } from 'naive-ui'
 import { request } from '@/utils';
+import { useRouter } from 'vue-router';
+const router = useRouter();
 
 const columns: DataTableColumns = [
   { key: 'upc', title: 'UPC', width: 200 },
@@ -19,14 +21,42 @@ const columns: DataTableColumns = [
     title: 'Action',
     key: 'actions',
     render(row) {
-      return h(
-        NButton,
-        {
-          size: 'small',
-          onClick: () => console.log(row)
-        },
-        { default: () => 'Edit' }
-      )
+      if (row.isLeaf == false) {
+        return [h(
+          NButton,
+          {
+            size: 'small',
+            onClick: () => {
+              // @ts-ignore
+              router.push({ path: '/base/inventory-edit', query: { upc: row.upc } });
+            }
+          },
+          { default: () => 'EDIT' }
+        ),
+        h(
+          NButton,
+          {
+            size: 'small',
+            onClick: () => {
+              // @ts-ignore
+              router.push({ path: '/base/inventory-asin', query: { upc: row.upc } });
+            }
+          },
+          { default: () => 'ASIN' }
+        )]
+      } else {
+        return h(
+          NButton,
+          {
+            size: 'small',
+            onClick: () => {
+              // @ts-ignore
+              router.push({ path: '/base/inventory-edit', query: { upc: row.upc } });
+            }
+          },
+          { default: () => 'more' }
+        )
+      }
     }
   }
 ]
@@ -56,6 +86,7 @@ async function onLoad(row: Record<string, unknown>) {
 
   try {
     const response = await request.get('/inventorys/', { params: { upc: row.upc } });
+    // @ts-ignore
     const inventory_data = response.results;
     for (let inv of inventory_data) {
       inv.upc = inv.upc_full
