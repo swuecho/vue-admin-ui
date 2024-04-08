@@ -13,7 +13,7 @@
 
 <script setup lang="ts">
 import { ref, h, onMounted, Ref } from 'vue'
-import { DataTableColumns, NButton } from 'naive-ui'
+import { DataTableColumns, NBadge, NButton } from 'naive-ui'
 import { request } from '@/utils';
 import { useRouter } from 'vue-router';
 const router = useRouter();
@@ -28,10 +28,12 @@ const columns: DataTableColumns = [
     key: 'actions',
     render(row) {
       if (row.isLeaf == false) {
-        return [h(
+        return h('div', {
+        }, [h(
           NButton,
           {
             size: 'small',
+            type: row.asin_count ? "success" : "error",
             onClick: () => {
               // @ts-ignore
               router.push({ path: '/base/inventory-edit', query: { upc: row.upc } });
@@ -43,17 +45,25 @@ const columns: DataTableColumns = [
           NButton,
           {
             size: 'small',
+            class: "mx-2",
+            type: row.asin_count ? "success" : "error",
             onClick: () => {
               // @ts-ignore
               router.push({ path: '/base/inventory-asin', query: { upc: row.upc } });
             }
           },
-          { default: () => 'ASIN' }
+          h(NBadge,
+            {
+              value: row.asin_count
+            },
+            { default: () => 'ASIN' }
+          )
         ),
         h(
           NButton,
           {
             size: 'small',
+            type: "info",
             onClick: async () => {
               // @ts-ignore
               showDrawer.value = true
@@ -66,7 +76,7 @@ const columns: DataTableColumns = [
           },
           { default: () => 'SHOW' }
         )
-        ]
+        ])
       } else {
         return h(
           NButton,
@@ -92,7 +102,7 @@ const summary_columns: DataTableColumns = [
   },
   {
     key: "operatingSystem",
-    title: "Operating System",
+    title: "Spec",
     render(row, index) {
       return `${row.memory}-${row.disk}-${row.operatingSystem}`
     }
@@ -100,17 +110,21 @@ const summary_columns: DataTableColumns = [
 
   {
     key: "price_latest",
-    title: "Price",
+    title: "Latest Price(max,min,mean)",
     render(row, index) {
       return `${row.price_latest}(${row.price_max},${row.price_min},${row.price_mean})`
     }
   },
   {
     key: "rank_latest",
-    title: "Rank",
+    title: "Latest Rank(max,min,mean)",
     render(row, index) {
       return `${row.rank_latest}(${row.rank_max},${row.rank_min},${row.rank_mean})`
     }
+  },
+  {
+    key: "comment",
+    title: "备注",
   },
 ];
 
@@ -127,13 +141,22 @@ onMounted(async () => {
     const response = await request.get('/inventory_group/');
     // @ts-ignore
     const inventory_data = response.results;
+    let resp_count = await getUpcAsinStat()
+    // @ts-ignore
+    console.log(resp_count)
     for (let inv of inventory_data) {
       inv.isLeaf = false
       inv.key = inv.upc
       inv.qty = inv.total_qty
+      if (inv.upc in resp_count) {
+        inv.asin_count = resp_count[inv.upc]
+      } else {
+        inv.asin_count = 0
+      }
     }
     data.value = inventory_data;
     loading.value = false
+
   } catch (error) {
     console.error('Error fetching data', error);
   }
@@ -160,5 +183,11 @@ async function getInventorySummary(upc: string) {
   const response = await request.get('/inventory_summary/', { params: { upc } });
   console.log(response)
   return response
-} 
+}
+
+async function getUpcAsinStat() {
+  const upc_response = await request.get('/upc_asin_count/');
+  // @ts-ignore
+  return upc_response.results
+}
 </script>

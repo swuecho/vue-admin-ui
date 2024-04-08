@@ -11,7 +11,6 @@
 </template>
 
 <script setup lang="ts">
-import { HoverButton } from '@/components/common';
 import { request } from '@/utils';
 import { DataTableColumns, NButton, NInput } from 'naive-ui';
 import { h, onMounted, ref } from 'vue';
@@ -43,7 +42,7 @@ const columns: DataTableColumns = [
     title: 'ASIN', key: 'asin', render(row: any, index: number) {
       return h(NInput, {
         value: row.asin,
-        width: 100,
+        width: 50,
         async onUpdateValue(v: string) {
           data.value[index].asin = v
           await UpdateRow(data.value[index])
@@ -51,6 +50,16 @@ const columns: DataTableColumns = [
       })
     },
   },
+  { title: '备注', key: 'comment', render(row: any, index: number) {
+      return h(NInput, {
+        value: row.comment,
+        width: 50,
+        async onUpdateValue(v: string) {
+          data.value[index].comment = v
+          await UpdateRow(data.value[index])
+        },
+      })
+    }, },
   {
     title: "Action",
     key: 'actions',
