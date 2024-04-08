@@ -3,17 +3,16 @@
     <n-data-table striped :columns="columns" :data="data" :loading="loading" :cascade="false" allow-checking-not-loaded
       @load="onLoad" />
 
-    <n-drawer v-model:show="showDrawer" :default-width="502" resizable >
-    <n-drawer-content :title="upc" closable>
-      <h4>{{  product }}</h4>
-      <br/>
-    </n-drawer-content>
+    <n-drawer v-model:show="showDrawer" :default-width="1024" resizable>
+      <n-drawer-content :title="upc" closable>
+        <n-data-table striped :columns="summary_columns" :data="summary_data"></n-data-table>
+      </n-drawer-content>
     </n-drawer>
   </CommonPage>
 </template>
 
 <script setup lang="ts">
-import { ref, h, onMounted } from 'vue'
+import { ref, h, onMounted, Ref } from 'vue'
 import { DataTableColumns, NButton } from 'naive-ui'
 import { request } from '@/utils';
 import { useRouter } from 'vue-router';
@@ -55,17 +54,19 @@ const columns: DataTableColumns = [
           NButton,
           {
             size: 'small',
-            onClick: () => {
+            onClick: async () => {
               // @ts-ignore
               showDrawer.value = true
               upc.value = row.upc
               product.value = row.product
-              
+              let resp = await getInventorySummary(row.upc)
+              //@ts-ignore
+              summary_data.value = resp
             }
           },
           { default: () => 'SHOW' }
         )
-      ]
+        ]
       } else {
         return h(
           NButton,
@@ -82,9 +83,42 @@ const columns: DataTableColumns = [
     }
   }
 ]
+
+
+const summary_columns: DataTableColumns = [
+  {
+    key: "asin",
+    title: "ASIN",
+  },
+  {
+    key: "operatingSystem",
+    title: "Operating System",
+    render(row, index) {
+      return `${row.memory}-${row.disk}-${row.operatingSystem}`
+    }
+  },
+
+  {
+    key: "price_latest",
+    title: "Price",
+    render(row, index) {
+      return `${row.price_latest}(${row.price_max},${row.price_min},${row.price_mean})`
+    }
+  },
+  {
+    key: "rank_latest",
+    title: "Rank",
+    render(row, index) {
+      return `${row.rank_latest}(${row.rank_max},${row.rank_min},${row.rank_mean})`
+    }
+  },
+];
+
+
 const data = ref([]);
+const summary_data = ref([]);
 const loading = ref(true)
-const showDrawer=ref(false)
+const showDrawer = ref(false)
 const upc = ref('')
 const product = ref('')
 
@@ -98,7 +132,6 @@ onMounted(async () => {
       inv.key = inv.upc
       inv.qty = inv.total_qty
     }
-
     data.value = inventory_data;
     loading.value = false
   } catch (error) {
@@ -108,7 +141,6 @@ onMounted(async () => {
 
 
 async function onLoad(row: Record<string, unknown>) {
-
   try {
     const response = await request.get('/inventorys/', { params: { upc: row.upc } });
     // @ts-ignore
@@ -122,7 +154,11 @@ async function onLoad(row: Record<string, unknown>) {
   } catch (error) {
     console.error('Error fetching data', error);
   }
-
-
 }
+
+async function getInventorySummary(upc: string) {
+  const response = await request.get('/inventory_summary/', { params: { upc } });
+  console.log(response)
+  return response
+} 
 </script>
