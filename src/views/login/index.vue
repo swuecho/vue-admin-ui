@@ -101,7 +101,6 @@ async function handleLogin(isQuick) {
     loading.value = true
     $message.loading('正在验证，请稍后...', { key: 'login' })
     const { data } = await api.login({ username, password: password.toString(), captcha, isQuick })
-    console.log(data)
     if (isRemember.value) {
       lStorage.set('loginInfo', { username, password })
     } else {
@@ -121,17 +120,13 @@ async function handleLogin(isQuick) {
 }
 
 async function onLoginSuccess(data = {}) {
-  console.log("loggin success", data.access)
   authStore.setToken({ accessToken: data.access})
-  console.log(authStore.accessToken)
   $message.loading('登录中...', { key: 'login' })
   try {
     $message.success('登录成功', { key: 'login' })
-    console.log(route.query)
     if (route.query.redirect) {
       const path = route.query.redirect
       delete route.query.redirect
-      console.log(route.query)
       router.push({ path, query: route.query })
     } else {
       router.push('/')

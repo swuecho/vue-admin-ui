@@ -150,7 +150,6 @@ async function createInventoryExtra(value: any) {
 
 const submitHardwareForm = async () => {
   // Handle form submission logic here
-  console.log('Form submitted:', formModel.value);
   await createHardware(formModel.value)
   await createAsinEntries(formModel.value)
 };

@@ -121,7 +121,6 @@ async function getUpcAsins(upc: string) {
     const response = await request.get('/asins/', { params: { upc: upc } });
     // @ts-ignore
     const inventory_data = response.results;
-    console.log(inventory_data)
     return inventory_data
   } catch (error) {
     console.error('Error fetching data', error);

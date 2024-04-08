@@ -179,7 +179,6 @@ async function onLoad(row: Record<string, unknown>) {
 
 async function getInventorySummary(upc: string) {
   const response = await request.get('/inventory_summary/', { params: { upc } });
-  console.log(response)
   return response
 }
 

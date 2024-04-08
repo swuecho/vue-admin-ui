@@ -22,7 +22,6 @@ const columns: DataTableColumns = [
         width: 5,
         async onUpdateValue(v: string) {
           data.value[index].value = v
-          console.log(data.value)
           await UpdateRow(data.value[index])
         },
       })
@@ -68,12 +67,10 @@ async function refreshData() {
 
 async function deleteParamer(value: string) {
   const response = await request.delete(`/parameters/${value}`);
-  console.log(response)
 }
 
 async function updateParameter(name: string, params: any) {
   const response = await request.put(`/parameters/${name}/`, params);
-  console.log(response)
 }
 
 
@@ -83,7 +80,6 @@ async function addRow() {
 }
 
 async function UpdateRow(row: Parameter) {
-  console.log(row)
   if (row.name)
     await updateParameter(row.name, {
       ...row, value: row.value || ''
