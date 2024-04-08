@@ -88,7 +88,7 @@ const columns: DataTableColumns = [
               router.push({ path: '/base/inventory-edit', query: { upc: row.upc } });
             }
           },
-          { default: () => 'more' }
+          { default: () => 'TODO' }
         )
       }
     }

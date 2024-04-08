@@ -113,11 +113,15 @@ onMounted(async () => {
     formModel.value.upc = router.currentRoute.value.query.upc as string;
     formCostModel.value.upc = router.currentRoute.value.query.upc as string;
     let existingData = await getHardwareByUpc(formModel.value.upc)
-    // @ts-ignore
-    formModel.value = existingData
+    if (existingData) {
+      // @ts-ignore
+      formModel.value = existingData
+    }
     let existingInventoryExtra = await getInventoryExtraByUpc(formModel.value.upc)
+    if (existingData) {
     // @ts-ignore
     formCostModel.value = existingInventoryExtra
+    }
   }
 
 })
