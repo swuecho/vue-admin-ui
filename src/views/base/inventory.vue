@@ -28,8 +28,7 @@ const columns: DataTableColumns = [
     key: 'actions',
     render(row) {
       if (row.isLeaf == false) {
-        return h('div', {
-        }, [h(
+        return [h(
           NButton,
           {
             size: 'small',
@@ -52,7 +51,7 @@ const columns: DataTableColumns = [
               router.push({ path: '/base/inventory-asin', query: { upc: row.upc } });
             }
           },
-          h(NBadge,
+          () => h(NBadge,
             {
               value: row.asin_count
             },
@@ -77,7 +76,7 @@ const columns: DataTableColumns = [
           },
           { default: () => 'SHOW' }
         )
-        ])
+        ]
       } else {
         return h(
           NButton,
@@ -143,8 +142,6 @@ onMounted(async () => {
     // @ts-ignore
     const inventory_data = response.results;
     let resp_count = await getUpcAsinStat()
-    // @ts-ignore
-    console.log(resp_count)
     for (let inv of inventory_data) {
       inv.isLeaf = false
       inv.key = inv.upc
