@@ -5,7 +5,7 @@
     </template>
     <NDataTable :columns="columns" :data="data" :loading="loading" />
     <NModal v-model:show="dialogVisible" title="error" preset="dialog">
-      缺少upc, 请从库存页面进入
+      {{  errMessage }}
     </NModal>
   </CommonPage>
 </template>
@@ -18,6 +18,7 @@ import { h, onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 const router = useRouter();
 
+const errMessage = ref('缺少upc, 请从库存页面进入')
 const data = ref<any[]>([])
 
 const loading = ref(true)
@@ -125,8 +126,14 @@ onMounted(async () => {
   let upc = router.currentRoute.value.query.upc as string
   if (upc) {
     let asin = await getUpcAsins(upc)
+    if (asin.length > 0) {
     data.value = asin
     loading.value = false
+  } else {
+    errMessage.value = "请检查硬件信息是否已经录入"
+    dialogVisible.value = true
+    loading.value = false 
+  }
   } else {
     dialogVisible.value = true
     loading.value = false
