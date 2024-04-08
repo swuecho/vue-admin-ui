@@ -64,6 +64,7 @@ const columns: DataTableColumns = [
           {
             size: 'small',
             type: "info",
+            disabled: !row.asin_count,
             onClick: async () => {
               // @ts-ignore
               showDrawer.value = true
