@@ -34,12 +34,10 @@ export function setupInterceptors(axiosInstance) {
 
   function resResolve(response) {
     const { data, status, config, statusText, headers } = response
-    console.log(response)
     
     if (headers['content-type']?.includes('json')) {
 
       if (response.status === 200 || response.status === 201 || response.status === 204 || response.status === 404) {
-          console.log(response)
           return Promise.resolve(data)
       }
 

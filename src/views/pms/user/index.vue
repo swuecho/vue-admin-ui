@@ -118,12 +118,10 @@ onMounted(() => {
   $table.value?.handleSearch()
 })
 
-const genders = [
-  { label: '男', value: 1 },
-  { label: '女', value: 2 },
-]
 const roles = ref([])
-api.getAllRoles().then(({ data = [] }) => (roles.value = data))
+
+api.getAllRoles().then(({ results = [] }) => (roles.value = results))
+console.log("role", roles.value)
 
 const columns = [
   // {
@@ -252,6 +250,7 @@ async function handleEnable(row) {
 
 function handleOpenRolesSet(row) {
   const roleIds = row.roles.map((item) => item.id)
+  console.log(roleIds)
   handleOpen({
     action: 'setRole',
     title: '分配角色',
