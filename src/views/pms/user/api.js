@@ -13,7 +13,5 @@ export default {
   read: (params = {}) => request.get('/users/', { params }),
   update: (data) => request.post(`/user/roles/`, data),
   delete: (id) => request.delete(`/users/${id}`),
-  resetPwd: (id, data) => request.patch(`/user/password/reset/${id}`, data),
-
   getAllRoles: () => request.get('/roles/?enable=1'),
 }

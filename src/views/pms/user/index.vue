@@ -193,7 +193,7 @@ const columns = [
     title: '操作',
     key: 'actions',
     width: 320,
-    align: 'right',
+    align: 'left',
     fixed: 'right',
     hideInExcel: true,
     render(row) {
@@ -211,20 +211,6 @@ const columns = [
             icon: () => h('i', { class: 'i-carbon:user-role text-14' }),
           }
         ),
-        h(
-          NButton,
-          {
-            size: 'small',
-            type: 'primary',
-            style: 'margin-left: 12px;',
-            onClick: () => handleOpen({ action: 'reset', title: '重置密码', row, onOk: onSave }),
-          },
-          {
-            default: () => '重置密码',
-            icon: () => h('i', { class: 'i-radix-icons:reset text-14' }),
-          }
-        ),
-
         h(
           NButton,
           {
@@ -289,12 +275,7 @@ function onSave() {
       api: () => api.update(modalForm.value),
       cb: () => $message.success('分配成功'),
     })
-  } else if (modalAction.value === 'reset') {
-    return handleSave({
-      api: () => api.resetPwd(modalForm.value.id, modalForm.value),
-      cb: () => $message.success('密码重置成功'),
-    })
-  }
+  } 
   handleSave()
 }
 </script>
