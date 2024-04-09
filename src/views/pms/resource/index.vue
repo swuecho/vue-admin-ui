@@ -73,7 +73,7 @@
             :columns="btnsColumns"
             :scroll-x="-1"
             :get-data="api.getButtons"
-            :query-items="{ parentId: currentMenu.id }"
+            :query-items="{ parent_id: currentMenu.id }"
           ></MeCrud>
         </template>
         <n-empty v-else class="h-450 f-c-c" size="large" description="请选择菜单查看详情" />
@@ -193,7 +193,7 @@ function handleAddBtn() {
   modalRef.value?.handleOpen({
     action: 'add',
     title: '新增按钮',
-    row: { type: 'BUTTON', parentId: currentMenu.value.id },
+    row: { type: 'BUTTON', parent_id: currentMenu.value.id },
     okText: '保存',
   })
 }

@@ -84,7 +84,7 @@ function renderSuffix({ option }) {
         type: 'primary',
         title: '新增下级菜单',
         size: 'tiny',
-        onClick: withModifiers(() => handleAdd({ parentId: option.id }), ['stop']),
+        onClick: withModifiers(() => handleAdd({ parent_id: option.id }), ['stop']),
       },
       { default: () => '新增' }
     ),

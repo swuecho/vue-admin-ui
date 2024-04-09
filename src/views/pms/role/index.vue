@@ -66,14 +66,14 @@
         >
           <n-input v-model:value="modalForm.code" :disabled="modalAction !== 'add'" />
         </n-form-item>
-        <n-form-item label="权限" path="permissionIds">
+        <n-form-item label="权限" path="permission_ids">
           <n-tree
             key-field="id"
             label-field="name"
             :selectable="false"
             :data="permissionTree"
-            :checked-keys="modalForm.permissionIds"
-            :on-update:checked-keys="(keys) => (modalForm.permissionIds = keys)"
+            :checked-keys="modalForm.permission_ids"
+            :on-update:checked-keys="(keys) => (modalForm.permission_ids = keys)"
             default-expand-all
             checkable
             check-on-click
