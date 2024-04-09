@@ -15,5 +15,5 @@ export default {
   delete: (id) => request.delete(`/users/${id}`),
   resetPwd: (id, data) => request.patch(`/user/password/reset/${id}`, data),
 
-  getAllRoles: () => request.get('/role?enable=1'),
+  getAllRoles: () => request.get('/roles/?enable=1'),
 }

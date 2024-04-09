@@ -16,9 +16,9 @@
       :model="modalForm"
     >
       <n-grid :cols="24" :x-gap="24">
-        <n-form-item-gi :span="12" label="所属菜单" path="parentId">
+        <n-form-item-gi :span="12" label="所属菜单" path="parent_id">
           <n-tree-select
-            v-model:value="modalForm.parentId"
+            v-model:value="modalForm.parent_id"
             :options="menuOptions"
             :disabled="parentIdDisabled"
             label-field="name"
@@ -194,7 +194,7 @@ function handleOpen(options = {}) {
   const { action, row = {}, ...rest } = options
   modalAction.value = action
   modalForm.value = { ...defaultForm, ...row }
-  parentIdDisabled.value = !!row.parentId && row.type === 'BUTTON'
+  parentIdDisabled.value = !!row.parent_id && row.type === 'BUTTON'
   modalRef.value.open({ ...rest, onOk: onSave })
 }
 
@@ -203,7 +203,7 @@ async function onSave() {
   okLoading.value = true
   try {
     let newFormData
-    if (!modalForm.value.parentId) modalForm.value.parentId = null
+    if (!modalForm.value.parent_id) modalForm.value.parent_id = null
     if (modalAction.value === 'add') {
       const res = await api.addPermission(modalForm.value)
       newFormData = res.data
