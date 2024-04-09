@@ -31,13 +31,19 @@ export function setupInterceptors(axiosInstance) {
   }
 
   const SUCCESS_CODES = [0, 200]
+
   function resResolve(response) {
     const { data, status, config, statusText, headers } = response
+    console.log(response)
+    
     if (headers['content-type']?.includes('json')) {
-      if (SUCCESS_CODES.includes(data?.code)) {
-        return Promise.resolve(data)
-      }
+
       if (response.status === 200 || response.status === 201 || response.status === 204 || response.status === 404) {
+          console.log(response)
+          return Promise.resolve(data)
+      }
+
+      if (SUCCESS_CODES.includes(data?.code)) {
         return Promise.resolve(data)
       }
       const code = data?.code ?? status

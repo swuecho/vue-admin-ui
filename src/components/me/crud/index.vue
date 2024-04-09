@@ -95,7 +95,7 @@ const emit = defineEmits(['update:queryItems', 'onChecked', 'onDataChange'])
 const loading = ref(false)
 const initQuery = { ...props.queryItems }
 const tableData = ref([])
-const pagination = reactive({ page: 1, pageSize: 10 })
+const pagination = reactive({ page: 1, pageSize: 1000 })
 
 async function handleQuery() {
   try {
@@ -105,11 +105,17 @@ async function handleQuery() {
     if (props.isPagination && props.remote) {
       paginationParams = { pageNo: pagination.page, pageSize: pagination.pageSize }
     }
-    const { data } = await props.getData({
+    console.log(props.isPagination)
+    console.log(props.queryItems)
+    console.log(paginationParams)
+    console.log(props.getData)
+    const { results  } = await props.getData({
       ...props.queryItems,
       ...paginationParams,
     })
-    tableData.value = data?.pageData || data
+    let data = results
+    console.log(data)
+    tableData.value = data?.results || data?.pageData || data
     pagination.itemCount = data.total ?? data.length
   } catch (error) {
     tableData.value = []

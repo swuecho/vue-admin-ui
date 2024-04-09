@@ -31,13 +31,9 @@
         />
       </MeQueryItem>
 
-      <MeQueryItem label="性别" :label-width="50">
-        <n-select v-model:value="queryItems.gender" clearable :options="genders" />
-      </MeQueryItem>
-
       <MeQueryItem label="状态" :label-width="50">
         <n-select
-          v-model:value="queryItems.enable"
+          v-model:value="queryItems.is_active"
           clearable
           :options="[
             { label: '启用', value: 1 },
@@ -91,8 +87,8 @@
             multiple
           />
         </n-form-item>
-        <n-form-item v-if="modalAction === 'add'" label="状态" path="enable">
-          <n-switch v-model:value="modalForm.enable">
+        <n-form-item v-if="modalAction === 'add'" label="状态" path="is_active">
+          <n-switch v-model:value="modalForm.is_active">
             <template #checked>启用</template>
             <template #unchecked>停用</template>
           </n-switch>
@@ -130,16 +126,16 @@ const roles = ref([])
 api.getAllRoles().then(({ data = [] }) => (roles.value = data))
 
 const columns = [
-  {
-    title: '头像',
-    key: 'avatar',
-    width: 80,
-    render: ({ avatar }) =>
-      h(NAvatar, {
-        size: 'medium',
-        src: avatar,
-      }),
-  },
+  // {
+  //   title: '头像',
+  //   key: 'avatar',
+  //   width: 80,
+  //   render: ({ avatar }) =>
+  //     h(NAvatar, {
+  //       size: 'medium',
+  //       src: avatar,
+  //     }),
+  // },
   { title: '用户名', key: 'username', width: 150, ellipsis: { tooltip: true } },
   {
     title: '角色',
@@ -159,12 +155,6 @@ const columns = [
       return '暂无角色'
     },
   },
-  {
-    title: '性别',
-    key: 'gender',
-    width: 80,
-    render: ({ gender }) => genders.find((item) => gender === item.value)?.label ?? '',
-  },
   { title: '邮箱', key: 'email', width: 150, ellipsis: { tooltip: true } },
   {
     title: '创建时间',
@@ -176,7 +166,7 @@ const columns = [
   },
   {
     title: '状态',
-    key: 'enable',
+    key: 'is_active',
     width: 120,
     render: (row) =>
       h(
@@ -184,7 +174,7 @@ const columns = [
         {
           size: 'small',
           rubberBand: false,
-          value: row.enable,
+          value: row.is_active,
           loading: !!row.enableLoading,
           onUpdateValue: () => handleEnable(row),
         },
@@ -251,7 +241,7 @@ const columns = [
 async function handleEnable(row) {
   row.enableLoading = true
   try {
-    await api.update({ id: row.id, enable: !row.enable })
+    await api.update({ id: row.id, enable: !row.is_active })
     row.enableLoading = false
     $message.success('操作成功')
     $table.value?.handleSearch()

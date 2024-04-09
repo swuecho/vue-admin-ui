@@ -46,10 +46,6 @@
         />
       </MeQueryItem>
 
-      <MeQueryItem label="性别" :label-width="50">
-        <n-select v-model:value="queryItems.gender" clearable :options="genders" />
-      </MeQueryItem>
-
       <MeQueryItem label="状态" :label-width="50">
         <n-select
           v-model:value="queryItems.enable"
@@ -82,11 +78,6 @@ onMounted(() => {
   $table.value?.handleSearch()
 })
 
-const genders = [
-  { label: '男', value: 1 },
-  { label: '女', value: 2 },
-]
-
 const columns = [
   { type: 'selection', fixed: 'left' },
   {
@@ -118,12 +109,7 @@ const columns = [
       return '暂无角色'
     },
   },
-  {
-    title: '性别',
-    key: 'gender',
-    width: 80,
-    render: ({ gender }) => genders.find((item) => gender === item.value)?.label ?? '',
-  },
+ 
   {
     title: '创建时间',
     key: 'createDate',
