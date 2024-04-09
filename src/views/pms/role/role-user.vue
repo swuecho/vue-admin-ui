@@ -80,16 +80,6 @@ onMounted(() => {
 
 const columns = [
   { type: 'selection', fixed: 'left' },
-  {
-    title: '头像',
-    key: 'avatar',
-    width: 80,
-    render: ({ avatar }) =>
-      h(NAvatar, {
-        size: 'medium',
-        src: avatar,
-      }),
-  },
   { title: '用户名', key: 'username', width: 150, ellipsis: { tooltip: true } },
   {
     title: '角色',
@@ -109,13 +99,13 @@ const columns = [
       return '暂无角色'
     },
   },
- 
   {
     title: '创建时间',
     key: 'createDate',
     width: 180,
     render(row) {
-      return h('span', formatDateTime(row['createTime']))
+      console.log(row)
+      return h('span', formatDateTime(row['date_joined']))
     },
   },
   {
@@ -129,7 +119,7 @@ const columns = [
         {
           size: 'small',
           rubberBand: false,
-          value: row.enable,
+          value: row.is_active,
         },
         {
           checked: () => '启用',
@@ -188,7 +178,7 @@ function handleBatchAdd(ids = userIds.value) {
   $dialog.confirm({
     content: `确认分配【${route.query.roleName}】？`,
     async confirm() {
-      await api.addRoleUsers(roleId, { userIds: ids })
+      await api.addRoleUsers({ id: roleId, user_ids: ids})
       $table.value?.handleSearch()
     },
   })

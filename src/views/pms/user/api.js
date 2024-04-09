@@ -11,7 +11,7 @@ import { request } from '@/utils'
 export default {
   create: (data) => request.post('/users/', data),
   read: (params = {}) => request.get('/users/', { params }),
-  update: (data) => request.patch(`/users/${data.id}/`, data),
+  update: (data) => request.post(`/user/roles/`, data),
   delete: (id) => request.delete(`/users/${id}`),
   resetPwd: (id, data) => request.patch(`/user/password/reset/${id}`, data),
 

@@ -76,9 +76,9 @@
           <n-input v-model:value="modalForm.password" />
         </n-form-item>
 
-        <n-form-item v-if="['add', 'setRole'].includes(modalAction)" label="角色" path="roleIds">
+        <n-form-item v-if="['add', 'setRole'].includes(modalAction)" label="角色" path="role_ids">
           <n-select
-            v-model:value="modalForm.roleIds"
+            v-model:value="modalForm.role_ids"
             :options="roles"
             label-field="name"
             value-field="id"
@@ -121,7 +121,6 @@ onMounted(() => {
 const roles = ref([])
 
 api.getAllRoles().then(({ results = [] }) => (roles.value = results))
-console.log("role", roles.value)
 
 const columns = [
   // {
@@ -159,7 +158,15 @@ const columns = [
     key: 'createDate',
     width: 180,
     render(row) {
-      return h('span', formatDateTime(row['createTime']))
+      return h('span', formatDateTime(row['date_joined']))
+    },
+  },
+  {
+    title: '最近登录',
+    key: 'createDate',
+    width: 180,
+    render(row) {
+      return h('span', formatDateTime(row['last_login']))
     },
   },
   {
@@ -249,12 +256,11 @@ async function handleEnable(row) {
 }
 
 function handleOpenRolesSet(row) {
-  const roleIds = row.roles.map((item) => item.id)
-  console.log(roleIds)
+  const role_ids = row.roles.map((item) => item.id)
   handleOpen({
     action: 'setRole',
     title: '分配角色',
-    row: { id: row.id, username: row.username, roleIds },
+    row: { id: row.id, username: row.username, role_ids },
     onOk: onSave,
   })
 }
