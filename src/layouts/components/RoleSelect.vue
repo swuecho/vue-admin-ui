@@ -30,8 +30,8 @@
           class="ml-20 flex-1"
           type="primary"
           size="large"
-          :disabled="userStore.currentRole?.code === roleCode"
-          @click="setCurrentRole"
+          :disabled="userStore.current_role?.code === roleCode"
+          @click="setcurrent_role"
         >
           确认
         </n-button>
@@ -50,7 +50,7 @@ const userStore = useUserStore()
 const authStore = useAuthStore()
 
 const roles = ref(userStore.roles || [])
-const roleCode = ref(userStore.currentRole?.code ?? roles[0]?.code ?? '')
+const roleCode = ref(userStore.current_role?.code ?? roles[0]?.code ?? '')
 
 const [modalRef, okLoading] = useModal()
 function open(options) {
@@ -59,11 +59,11 @@ function open(options) {
   })
 }
 
-async function setCurrentRole() {
+async function setcurrent_role() {
   try {
     okLoading.value = true
-    const { data } = await api.switchCurrentRole(roleCode.value)
-    await authStore.switchCurrentRole(data)
+    const { data } = await api.switchcurrent_role(roleCode.value)
+    await authStore.switchcurrent_role(data)
     okLoading.value = false
     $message.success('切换成功')
     modalRef.value?.handleOk()

@@ -25,7 +25,7 @@
           autofocus
           class="mt-32 h-40 items-center"
           placeholder="请输入用户名"
-          :maxlength="20"
+          :maxlength="50"
         >
           <template #prefix>
             <i class="i-fe:user mr-12 opacity-20" />

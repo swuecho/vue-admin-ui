@@ -3,7 +3,7 @@ import api from '@/api'
 
 export async function getUserInfo() {
   const res = await api.getUser()
-  const { id, username, profile, roles, currentRole } = res.data || {}
+  const { id, username, profile, roles, current_role } = res.data || {}
   return {
     id,
     username,
@@ -13,7 +13,7 @@ export async function getUserInfo() {
     address: profile?.address,
     email: profile?.email,
     roles,
-    currentRole,
+    current_role,
   }
 }
 

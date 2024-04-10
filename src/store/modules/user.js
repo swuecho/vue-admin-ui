@@ -25,8 +25,8 @@ export const useUserStore = defineStore('user', {
     avatar() {
       return this.userInfo?.avatar
     },
-    currentRole() {
-      return this.userInfo?.currentRole || {}
+    current_role() {
+      return this.userInfo?.current_role || {}
     },
     roles() {
       return this.userInfo?.roles || []

@@ -27,7 +27,7 @@ export const useAuthStore = defineStore('auth', {
         query: route.query,
       })
     },
-    async switchCurrentRole(data) {
+    async switchcurrent_role(data) {
       this.resetLoginState()
       await nextTick()
       this.setToken(data)
