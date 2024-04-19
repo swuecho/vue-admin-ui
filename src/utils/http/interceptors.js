@@ -10,7 +10,7 @@
 import { resolveResError } from './helpers'
 import { useAuthStore } from '@/store'
 
-export function setupInterceptors(axiosInstance) {
+export function setupInterceptors(axiosInstance, interceptResponse = true) {
   function reqResolve(config) {
     // 处理不需要token的请求
     if (config.noNeedToken) {
@@ -34,18 +34,17 @@ export function setupInterceptors(axiosInstance) {
 
   function resResolve(response) {
     const { data, status, config, statusText, headers } = response
-    
+
     if (headers['content-type']?.includes('json')) {
 
       if (response.status === 200 || response.status === 201 || response.status === 204 || response.status === 404) {
-          return Promise.resolve(data)
+        return Promise.resolve(data)
       }
 
       if (SUCCESS_CODES.includes(data?.code)) {
         return Promise.resolve(data)
       }
-      const code =  status ?? data?.code
-      console.log(code)
+      const code = status ?? data?.code
       // 根据code处理对应的操作，并返回处理后的message
       const message = resolveResError(code, data?.message ?? statusText)
 
@@ -66,14 +65,17 @@ export function setupInterceptors(axiosInstance) {
     }
 
     const { data, status, config } = error.response
-    const code = status ?? data?.code 
+    const code = status ?? data?.code
 
     const message = resolveResError(code, data?.message ?? error.message)
     /** 需要错误提醒 */
+
     !config?.noNeedTip && message && window.$message?.error(message)
     return Promise.reject({ code, message, error: error.response?.data || error.response })
   }
 
   axiosInstance.interceptors.request.use(reqResolve, reqReject)
-  axiosInstance.interceptors.response.use(resResolve, resReject)
+  if (interceptResponse) {
+    axiosInstance.interceptors.response.use(resResolve, resReject)
+  }
 }

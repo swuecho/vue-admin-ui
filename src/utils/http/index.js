@@ -19,7 +19,7 @@ export function createAxios(options = {}) {
     ...defaultOptions,
     ...options,
   })
-  setupInterceptors(service)
+  setupInterceptors(service, true)
   return service
 }
 
@@ -28,3 +28,19 @@ export const request = createAxios()
 export const mockRequest = createAxios({
   baseURL: '/mock-api',
 })
+
+export function createAxiosSimple(options = {}) {
+  const defaultOptions = {
+    baseURL: '/api',
+    timeout: 12000,
+  }
+  const service = axios.create({
+    ...defaultOptions,
+    ...options,
+  })
+  setupInterceptors(service, false)
+  return service
+}
+
+export const requestSimple = createAxiosSimple()
+
