@@ -44,7 +44,8 @@ export function setupInterceptors(axiosInstance) {
       if (SUCCESS_CODES.includes(data?.code)) {
         return Promise.resolve(data)
       }
-      const code = data?.code ?? status
+      const code =  status ?? data?.code
+      console.log(code)
       // 根据code处理对应的操作，并返回处理后的message
       const message = resolveResError(code, data?.message ?? statusText)
 
@@ -65,7 +66,7 @@ export function setupInterceptors(axiosInstance) {
     }
 
     const { data, status, config } = error.response
-    const code = data?.code ?? status
+    const code = status ?? data?.code 
 
     const message = resolveResError(code, data?.message ?? error.message)
     /** 需要错误提醒 */

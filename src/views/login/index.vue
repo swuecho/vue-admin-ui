@@ -108,11 +108,12 @@ async function handleLogin(isQuick) {
     }
     onLoginSuccess(data)
   } catch (error) {
+    console.log('login error')
     // 10003为验证码错误专属业务码
-    if (error?.code === 10003) {
+    //if (error?.code === 10003) {
       // 为防止爆破，验证码错误则刷新验证码
-      initCaptcha()
-    }
+      //initCaptcha()
+    //}
     $message.destroy('login')
     console.error(error)
   }
