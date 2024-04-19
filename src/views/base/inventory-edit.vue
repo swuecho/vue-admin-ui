@@ -47,7 +47,7 @@
 </template>
 
 <script setup lang="ts">
-import { request } from '@/utils';
+import { request, requestSimple } from '@/utils';
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 const router = useRouter();
@@ -88,7 +88,7 @@ const formCostModel = ref({
 
 async function getHardwareByUpc(name: string) {
   try {
-    const response = await request.get(`/hardwares/${name}/`);
+    const response = await requestSimple.get(`/hardwares/${name}/`);
     // @ts-ignore
     return response
   } catch (error) {
@@ -98,7 +98,7 @@ async function getHardwareByUpc(name: string) {
 
 async function getInventoryExtraByUpc(name: string) {
   try {
-    const response = await request.get(`/inventory_extras/${name}/`);
+    const response = await requestSimple.get(`/inventory_extras/${name}/`);
     // @ts-ignore
     return response
   } catch (error) {
