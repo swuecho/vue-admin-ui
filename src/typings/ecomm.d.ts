@@ -7,20 +7,28 @@ interface Parameter {
 interface Hardware {
         product_type: string,
         upc: string,
-        operatingSystem: string,
+
+        //
+        os: string,
+        osGeneration: string,
+        osVersion: string,
+
+        //
+        cpuBrand: string,
+        cpuSerial: string, // N5051
+        cpuModel: string,
 
         // 
         memSlotType: string,
-        memTotalSize: number,
+        memTotalSize: string,
         memType: string,
+        memSizeBySlot: string,
         
         diskTotalSize: number,
         diskType: string,
         diskInterface: string,
 
-        cpuBrand: string,
-        cpuCategory: string,
-        cpuSerial: string, // N5051
+
         //
         screen: string // 21,24,27
 }
