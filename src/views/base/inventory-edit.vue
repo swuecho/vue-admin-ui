@@ -1,25 +1,83 @@
 <template>
   <CommonPage show-footer>
     <n-tabs type="line" animated>
-      <n-tab-pane name="hardware" tab="硬件">
+      <n-tab-pane name="cost" tab="采购相关">
+
+        <n-form ref="formCost" :model="formCostModel">
+          <n-form-item label="UPC" path="upc">
+            <n-input v-model:value="formModel.upc" placeholder="从库存页面进入会自动带上UPC" />
+          </n-form-item>
+
+          <n-form-item label="购买Link" path="purchaseLink">
+            <n-input v-model:value="formCostModel.purchaseLink" />
+          </n-form-item>
+
+          <n-form-item label="产品类型" path="productType">
+            <n-select v-model:value="formCostModel.productType" :options="productTypeOptions">
+            </n-select>
+          </n-form-item>
+
+          <n-form-item label="采购单号PO号" path="purchasePO">
+            <n-input v-model:value="formCostModel.purchasePO" />
+          </n-form-item>
+
+          <n-form-item label="采购价格" path="cost">
+            <n-input v-model:value="formCostModel.purchasePrice" />
+          </n-form-item>
+          <n-button type="primary" @click="submitCostForm">Submit</n-button>
+        </n-form>
+      </n-tab-pane>
+      <n-tab-pane name="hardware" tab="硬件相关">
         <n-form ref="form" :model="formModel">
           <n-form-item label="UPC" path="upc">
             <n-input v-model:value="formModel.upc" placeholder="从库存页面进入会自动带上UPC" />
           </n-form-item>
 
+          <n-divider title-placement="left">
+            中央处理器
+          </n-divider>
+          <n-form-item label="系统" path="osBrandOption">
+            <n-select v-model:value="formModel.osBrandOption" :options="osBrandOptions">
+            </n-select>
+          </n-form-item>
+          <n-form-item label="CPU系列" path="cpuSerial">
+            <n-input v-model:value="formModel.cpuSerial" />
+          </n-form-item>
           <n-form-item label="CPU型号" path="cpuModel">
             <n-input v-model:value="formModel.cpuModel" />
           </n-form-item>
-          <n-form-item label="系统" path="operatingSystem">
+
+          <n-divider title-placement="left">
+            操作系统
+          </n-divider>
+          <n-form-item label="类型" path="operatingSystem">
             <n-select v-model:value="formModel.operatingSystem" :options="osOptions">
             </n-select>
           </n-form-item>
+
+          <n-form-item label="代数" path="operatingSystem">
+            <n-select v-model:value="formModel.osGeneration" :options="osGenerationOptions">
+            </n-select>
+          </n-form-item>
+
+          <n-form-item label="版本" path="osVersion">
+            <n-select v-model:value="formModel.osVersion" :options="osVersionOptions">
+            </n-select>
+          </n-form-item>
+
+          <n-divider title-placement="left">
+            内存
+          </n-divider>
           <n-form-item label="运存是否焊接" path="solderedMemory">
             <n-switch v-model:value="formModel.solderedMemory" />
           </n-form-item>
           <n-form-item label="内存槽数量" path="cost" v-if="!formModel.solderedMemory">
             <n-input-number v-model:value="formModel.memSlot" />
           </n-form-item>
+
+          <n-divider title-placement="left">
+            硬盘
+          </n-divider>
           <n-form-item label="硬盘是否焊接" path="solderedDisk">
             <n-switch v-model:value="formModel.solderedDisk" />
           </n-form-item>
@@ -30,18 +88,7 @@
           <n-button type="primary" @click="submitHardwareForm">Submit</n-button>
         </n-form>
       </n-tab-pane>
-      <n-tab-pane name="cost" tab="成本">
 
-        <n-form ref="formCost" :model="formCostModel">
-          <n-form-item label="UPC" path="upc">
-            <n-input v-model:value="formModel.upc" />
-          </n-form-item>
-          <n-form-item label="蓝海入库成本价" path="cost">
-            <n-input v-model:value="formCostModel.cost" />
-          </n-form-item>
-          <n-button type="primary" @click="submitCostForm">Submit</n-button>
-        </n-form>
-      </n-tab-pane>
     </n-tabs>
   </CommonPage>
 </template>
@@ -52,8 +99,35 @@ import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 const router = useRouter();
 
-const operatingSystems = ['win 10 home', 'win 10 pro', 'win 11 home', 'win 11 pro'];
+const operatingSystems = ['Windows', 'Chrome'];
 const diskType = ['PCIe SSD', 'SATA2 SSD', 'HDD']
+const productTypeOptions = ['laptop', 'desktop', 'all-in-one', 'tablet'].map((x) => {
+  return {
+    label: x,
+    value: x,
+  }
+})
+
+const osBrandOptions = ['AMD', 'Intel'].map((x) => {
+  return {
+    label: x,
+    value: x,
+  }
+})
+
+const osGenerationOptions = ['10', '11'].map((x) => {
+  return {
+    label: x,
+    value: x,
+  }
+})
+
+const osVersionOptions = ['Home', 'Pro'].map((x) => {
+  return {
+    label: x,
+    value: x,
+  }
+})
 
 const osOptions = operatingSystems.map((x) => {
   return {
@@ -71,18 +145,28 @@ const diskTypeOptions = diskType.map((x) => {
 
 const formModel = ref<Hardware>({
   upc: '',
+ 
+  productPO: '',
   cpuModel: '',
-  operatingSystem: 'win_10_home',
+  operatingSystem: 'Windows',
+  osGeneration: '10',
+  osVersion: 'Home',
   solderedMemory: false,
   memSlot: 2,
   solderedDisk: false,
   diskType: 'PCIe_SSD',
+  cpuBrand: 'Intel', // amd, intel
+  cpuCategory: 'i7',
+  cpuSerial: '', // N5051
 });
 
 
 const formCostModel = ref({
   upc: '',
-  cost: '',
+  purchasePO: '',
+  purchaseLink: '',
+  purchasePrice: '',
+  productType: 'laptop',
 });
 
 
@@ -119,8 +203,8 @@ onMounted(async () => {
     }
     let existingInventoryExtra = await getInventoryExtraByUpc(formModel.value.upc)
     if (existingData) {
-    // @ts-ignore
-    formCostModel.value = existingInventoryExtra
+      // @ts-ignore
+      formCostModel.value = existingInventoryExtra
     }
   }
 
@@ -139,7 +223,7 @@ async function createHardware(value: Hardware) {
 }
 
 async function createAsinEntries(value: Hardware) {
-  let result = await request.post('/standard_product_asin/', { upc: value.upc})
+  let result = await request.post('/standard_product_asin/', { upc: value.upc })
   return result
 }
 

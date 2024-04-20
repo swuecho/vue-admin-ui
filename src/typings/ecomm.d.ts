@@ -5,11 +5,22 @@ interface Parameter {
 }
 
 interface Hardware {
+        product_type: string,
         upc: string,
-        cpuModel: string,
         operatingSystem: string,
-        solderedMemory: boolean,
-        memSlot: number,
-        solderedDisk: boolean,
+
+        // 
+        memSlotType: string,
+        memTotalSize: number,
+        memType: string,
+        
+        diskTotalSize: number,
         diskType: string,
+        diskInterface: string,
+
+        cpuBrand: string,
+        cpuCategory: string,
+        cpuSerial: string, // N5051
+        //
+        screen: string // 21,24,27
 }
