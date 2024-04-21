@@ -9,22 +9,22 @@ interface Hardware {
 
         //
         os: string,
-        osGeneration: string,
-        osVersion: string,
+        os_generation: string,
+        os_version: string,
 
         //
-        cpuBrand: string,
-        cpuSerial: string, // N5051
-        cpuModel: string,
+        cpu_brand: string,
+        cpu_serial: string, // N5051
+        cpu_model: string,
 
         // 
-        memSlotType: string,
-        memTotalSize: string,
-        memType: string,
-        memSizeBySlot: string,
+        mem_slot_type: string,
+        mem_total_size: string,
+        mem_type: string,
+        mem_size_by_slot: string,
         
-        diskTotalSize: string,
-        diskSlotType: string,
+        disk_total_size: string,
+        disk_slot_type: string,
 
 
         //
