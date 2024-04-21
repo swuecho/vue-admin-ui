@@ -102,7 +102,7 @@
           </n-form-item>
 
           <n-form-item label="接口类型 格式 x:num-y:num (x 和y 填写 Sata, PCIe, HDD, num是 物理硬盘大小)" path="disk_slot_type"
-            show-require-mark="true">
+            :show-require-mark="true">
             <n-input v-model:value="formModel.disk_slot_type" />
           </n-form-item>
 
