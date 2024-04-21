@@ -3,65 +3,65 @@
     <n-tabs type="line" animated>
       <n-tab-pane name="cost" tab="采购相关">
 
-        <n-form ref="formCost" :model="formCostModel">
-          <n-form-item label="UPC" path="upc">
+        <n-form ref="formCostRef" :model="formCostModel" :rules="formCostRules">
+          <n-form-item label="UPC" path="upc" show-require-mark="true">
             <n-input v-model:value="formModel.upc" placeholder="从库存页面进入会自动带上UPC" />
           </n-form-item>
 
-          <n-form-item label="购买Link" path="purchaseLink">
+          <n-form-item label="购买Link" path="purchaseLink" show-require-mark="true">
             <n-input v-model:value="formCostModel.purchaseLink" />
           </n-form-item>
 
-          <n-form-item label="产品类型" path="productType">
+          <n-form-item label="产品类型" path="productType" show-require-mark="true">
             <n-select v-model:value="formCostModel.productType" :options="productTypeOptions">
             </n-select>
           </n-form-item>
 
-          <n-form-item label="采购单号PO号" path="purchasePO">
+          <n-form-item label="采购单号PO号" path="purchasePO" show-require-mark="true">
             <n-input v-model:value="formCostModel.purchasePO" />
           </n-form-item>
 
-          <n-form-item label="采购价格" path="cost">
+          <n-form-item label="采购价格" path="purchasePrice" show-require-mark="true">
             <n-input v-model:value="formCostModel.purchasePrice" />
           </n-form-item>
           <n-button type="primary" @click="submitCostForm">Submit</n-button>
         </n-form>
       </n-tab-pane>
       <n-tab-pane name="hardware" tab="硬件相关">
-        <n-form ref="form" :model="formModel">
-          <n-form-item label="UPC" path="upc">
+        <n-form :ref="formRef" :model="formModel" :rules="formRules">
+          <n-form-item label="UPC" path="upc" show-require-mark="true">
             <n-input v-model:value="formModel.upc" placeholder="从库存页面进入会自动带上UPC" />
           </n-form-item>
 
           <n-divider title-placement="left">
             中央处理器
           </n-divider>
-          <n-form-item label="系统" path="osBrandOption">
+          <n-form-item label="系统" path="osBrandOption" show-require-mark="true">
             <n-select v-model:value="formModel.cpuBrand" :options="cpuBrandOptions">
             </n-select>
           </n-form-item>
-          <n-form-item label="CPU系列" path="cpuSerial">
+          <n-form-item label="CPU系列" path="cpuSerial" show-require-mark="true">
             <n-select v-model:value="formModel.cpuSerial" :options="cpuSerialOptions">
             </n-select>
           </n-form-item>
-          <n-form-item label="CPU型号" path="cpuModel">
+          <n-form-item label="CPU型号" path="cpuModel" show-require-mark="true">
             <n-input v-model:value="formModel.cpuModel" />
           </n-form-item>
 
           <n-divider title-placement="left">
             操作系统
           </n-divider>
-          <n-form-item label="类型" path="operatingSystem">
+          <n-form-item label="类型" path="os" show-require-mark="true">
             <n-select v-model:value="formModel.os" :options="osOptions">
             </n-select>
           </n-form-item>
 
-          <n-form-item label="代数" path="operatingSystem">
+          <n-form-item label="代数" path="osGeneration" show-require-mark="true">
             <n-select v-model:value="formModel.osGeneration" :options="osGenerationOptions">
             </n-select>
           </n-form-item>
 
-          <n-form-item label="版本" path="osVersion">
+          <n-form-item label="版本" path="osVersion" show-require-mark="true">
             <n-select v-model:value="formModel.osVersion" :options="osVersionOptions">
             </n-select>
           </n-form-item>
@@ -70,23 +70,24 @@
             内存
           </n-divider>
 
-          <n-form-item label="总内存大小" path="memTotalSize">
+          <n-form-item label="总内存大小" path="memTotalSize" show-require-mark="true">
             <n-select v-model:value="formModel.memTotalSize" :options="memTotalSizeOptions">
             </n-select>
           </n-form-item>
 
 
-          <n-form-item label="内存槽格式: x-y (x为总个数, y为焊在主板上的个数)" path="memSlotType">
+          <n-form-item label="内存槽格式: x-y (x为总个数, y为焊在主板上的个数)" path="memSlotType" show-require-mark="true">
             <n-select v-model:value="formModel.memSlotType" :options="memSlotTypeOptions">
             </n-select>
           </n-form-item>
 
-          <n-form-item label="物理内存大小 格式为 x-y  每一个字母代表一个物理内存的大小(x-y 为两个内存 x为 第一块的大小 y为第二块)" path="memSizeBySlot">
+          <n-form-item label="物理内存大小 格式为 x-y  每一个字母代表一个物理内存的大小(x-y 为两个内存 x为 第一块的大小 y为第二块)" path="memSizeBySlot"
+            show-require-mark="true">
             <n-select v-model:value="formModel.memSizeBySlot" :options="memSizeBySlotOptions">
             </n-select>
           </n-form-item>
 
-          <n-form-item label="内存类型" path="memType">
+          <n-form-item label="内存类型" path="memType" show-require-mark="true">
             <n-select v-model:value="formModel.memType" :options="memTypeOptions">
             </n-select>
           </n-form-item>
@@ -95,27 +96,35 @@
             硬盘
           </n-divider>
 
-          <n-form-item label="总硬盘大小(GB)" path="diskTotalSize">
+          <n-form-item label="总硬盘大小(GB)" path="diskTotalSize" show-require-mark="true">
             <n-select v-model:value="formModel.diskTotalSize" :options="diskTotalSizeOptions">
             </n-select>
           </n-form-item>
 
-          <n-form-item label="接口类型 格式 x:num-y:num x 和y 填写 Sata, PCIe, HDD, num是 物理硬盘大小" path="diskSlotType">
+          <n-form-item label="接口类型 格式 x:num-y:num (x 和y 填写 Sata, PCIe, HDD, num是 物理硬盘大小)" path="diskSlotType"
+            show-require-mark="true">
             <n-input v-model:value="formModel.diskSlotType" />
+          </n-form-item>
+
+          <n-form-item label="屏幕(ALL-IN-ONE的话屏幕大小)" path="screen">
+            <n-select v-model:value="formModel.screen" :options="screenOptions">
+            </n-select>
           </n-form-item>
           <n-button type="primary" @click="submitHardwareForm">Submit</n-button>
         </n-form>
       </n-tab-pane>
-
     </n-tabs>
   </CommonPage>
 </template>
 
 <script setup lang="ts">
 import { request, requestSimple } from '@/utils';
+import { FormInst } from 'naive-ui';
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 const router = useRouter();
+const formRef = ref<FormInst | null>(null)
+
 
 function array2options(arr) {
   return arr.map((x) => {
@@ -189,6 +198,8 @@ const diskTypeOptions = diskType.map((x) => {
   }
 })
 
+const screenOptions = array2options(['None', '21', '24', '27'])
+
 
 
 const formModel = ref<Hardware>({
@@ -206,11 +217,38 @@ const formModel = ref<Hardware>({
   memSlotType: '2-0',
   memSizeBySlot: '8-8',
   memType: 'DDR4',
-  solderedDisk: false,
+
   diskTotalSize: '512',
-  diskType: 'PCIe_SSD',
+  diskSlotType: '',
+  
+  screen: ''
 });
 
+const formRules = {
+  upc: {
+    required: true,
+    message: '必须填写',
+    trigger: 'blur'
+  },
+  cpuBrand: {
+    required: true,
+    message: '必须填写',
+    trigger: 'blur'
+  },
+  cpuSerial: {
+    required: true,
+  },
+  cpuModel: {
+    required: true,
+    message: '必须填写',
+    trigger: 'blur'
+  },
+  diskSlotType: {
+    required: true,
+    message: '必须填写',
+    trigger: 'blur'
+  },
+}
 
 const formCostModel = ref({
   upc: '',
@@ -219,6 +257,29 @@ const formCostModel = ref({
   purchasePrice: '',
   productType: 'laptop',
 });
+
+const formCostRules = {
+  upc: {
+    required: true,
+    message: '必须填写',
+    trigger: 'blur'
+  },
+  purchasePO: {
+    required: true,
+    message: '必须填写',
+    trigger: 'blur'
+  },
+  purchaseLink: {
+    required: true,
+    message: '必须填写',
+    trigger: 'blur'
+  },
+  purchasePrice: {
+    required: true,
+    message: '必须填写',
+    trigger: 'blur'
+  },
+}
 
 
 async function getHardwareByUpc(name: string) {
@@ -283,10 +344,12 @@ async function createInventoryExtra(value: any) {
   return result
 }
 
-const submitHardwareForm = async () => {
+const submitHardwareForm = async (e: MouseEvent) => {
   // Handle form submission logic here
   await createHardware(formModel.value)
   await createAsinEntries(formModel.value)
+
+
 };
 
 const submitCostForm = async () => {

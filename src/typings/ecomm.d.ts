@@ -5,7 +5,6 @@ interface Parameter {
 }
 
 interface Hardware {
-        product_type: string,
         upc: string,
 
         //
@@ -24,9 +23,8 @@ interface Hardware {
         memType: string,
         memSizeBySlot: string,
         
-        diskTotalSize: number,
-        diskType: string,
-        diskInterface: string,
+        diskTotalSize: string,
+        diskSlotType: string,
 
 
         //
