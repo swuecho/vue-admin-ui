@@ -10,7 +10,6 @@
     "lint:fix": "eslint --fix --ext .js,.vue ."
   },
   "dependencies": {
-    "@unocss/preset-icons": "^0.59.4",
     "@vueuse/core": "^10.9.0",
     "axios": "^1.6.7",
     "dayjs": "^1.11.10",
@@ -25,6 +24,8 @@
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
+    "@iconify/json": "^2.2.188",
+    "@iconify/utils": "^2.1.22",
     "@unocss/eslint-config": "^0.58.5",
     "@unocss/preset-rem-to-px": "^0.58.5",
     "@vitejs/plugin-vue": "^5.0.4",
