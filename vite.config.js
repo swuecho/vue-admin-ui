@@ -21,7 +21,7 @@ export default defineConfig(({ command, mode }) => {
   const isBuild = command === 'build'
   const viteEnv = loadEnv(mode, process.cwd())
   const { VITE_TITLE, VITE_PUBLIC_PATH, VITE_PROXY_TARGET } = viteEnv
-
+  console.log(VITE_PROXY_TARGET)
   return {
     base: VITE_PUBLIC_PATH || '/',
     plugins: [
@@ -57,6 +57,25 @@ export default defineConfig(({ command, mode }) => {
       },
     },
     server: {
+      host: '0.0.0.0',
+      port: 3200,
+      open: false,
+      proxy: {
+        '/api': {
+          target: VITE_PROXY_TARGET,
+          changeOrigin: true,
+          rewrite: (path) => path.replace(new RegExp('^/api'), ''),
+          secure: false,
+          configure: (proxy, options) => {
+            // 配置此项可在响应头中看到请求的真实地址
+            proxy.on('proxyRes', (proxyRes, req) => {
+              proxyRes.headers['x-real-url'] = new URL(req.url || '', options.target)?.href || ''
+            })
+          },
+        },
+      },
+    },
+    preview: {
       host: '0.0.0.0',
       port: 3200,
       open: false,
