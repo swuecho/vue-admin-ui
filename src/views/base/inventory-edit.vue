@@ -13,7 +13,7 @@
           </n-form-item>
 
           <n-form-item label="产品类型" path="product_type" :show-require-mark="true">
-            <n-select v-model:value="formCostModel.product_type" :options="product_typeOptions">
+            <n-select v-model:value="formCostModel.product_type" :options="product_type_options">
             </n-select>
           </n-form-item>
 
@@ -124,7 +124,37 @@ import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 const router = useRouter();
 const formRef = ref<FormInst | null>(null)
+
+const formModel = ref<Hardware>({
+  upc: '',
+
+  cpu_brand: 'Intel', // amd, intel
+  cpu_serial: 'i7',
+  cpu_model: '',
+
+  os: 'Windows',
+  os_version: 'Home',
+  os_generation: '11',
+
+  mem_total_size: '16',
+  mem_slot_type: '2-0',
+  mem_size_by_slot: '8-8',
+  mem_type: 'DDR4',
+
+  disk_total_size: '512',
+  disk_slot_type: '',
+
+  screen: ''
+});
+
 const formCostRef = ref<FormInst | null>(null)
+const formCostModel = ref({
+  upc: '',
+  purchase_po: '',
+  purchase_link: '',
+  purchase_price: '',
+  product_type: 'laptop',
+});
 
 function array2options(arr) {
   return arr.map((x) => {
@@ -135,9 +165,8 @@ function array2options(arr) {
   })
 }
 
-
 const operatingSystems = ['Windows', 'Chrome'];
-const product_typeOptions = ['laptop', 'desktop', 'all-in-one', 'tablet'].map((x) => {
+const product_type_options = ['laptop', 'desktop', 'all-in-one', 'tablet'].map((x) => {
   return {
     label: x,
     value: x,
@@ -192,27 +221,7 @@ const disk_total_sizeOptions = array2options([
 
 const screenOptions = array2options(['None', '21', '24', '27'])
 
-const formModel = ref<Hardware>({
-  upc: '',
 
-  cpu_brand: 'Intel', // amd, intel
-  cpu_serial: 'i7',
-  cpu_model: '',
-
-  os: 'Windows',
-  os_version: 'Home',
-  os_generation: '11',
-
-  mem_total_size: '16',
-  mem_slot_type: '2-0',
-  mem_size_by_slot: '8-8',
-  mem_type: 'DDR4',
-
-  disk_total_size: '512',
-  disk_slot_type: '',
-
-  screen: ''
-});
 
 const formRules = {
   upc: {
@@ -240,13 +249,6 @@ const formRules = {
   },
 }
 
-const formCostModel = ref({
-  upc: '',
-  purchase_po: '',
-  purchase_link: '',
-  purchase_price: '',
-  product_type: 'laptop',
-});
 
 const formCostRules = {
   upc: {
@@ -304,7 +306,7 @@ onMounted(async () => {
       formModel.value = existingData
     }
     let existingInventoryExtra = await getInventoryExtraByUpc(formCostModel.value.upc)
-    if (existingData) {
+    if (existingInventoryExtra) {
       // @ts-ignore
       formCostModel.value = existingInventoryExtra
     }
