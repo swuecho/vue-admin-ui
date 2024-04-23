@@ -62,8 +62,8 @@ function open(options) {
 async function setcurrent_role() {
   try {
     okLoading.value = true
-    const { data } = await api.switchcurrent_role(roleCode.value)
-    await authStore.switchcurrent_role(data)
+    const { data } = await api.switch_current_role(roleCode.value)
+    await authStore.switch_current_role(data.access)
     okLoading.value = false
     $message.success('切换成功')
     modalRef.value?.handleOk()
