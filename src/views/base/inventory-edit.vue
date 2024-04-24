@@ -24,7 +24,7 @@
           <n-form-item label="采购价格" path="purchase_price" :show-require-mark="true">
             <n-input v-model:value="formCostModel.purchase_price" />
           </n-form-item>
-          <n-button type="primary" @click="submitCostForm">Submit</n-button>
+          <n-button type="primary" @click="submitCostForm">保存</n-button>
         </n-form>
       </n-tab-pane>
       <n-tab-pane name="hardware" tab="硬件相关">
@@ -110,7 +110,7 @@
             <n-select v-model:value="formModel.screen" :options="screenOptions">
             </n-select>
           </n-form-item>
-          <n-button type="primary" @click="submitHardwareForm">Submit</n-button>
+          <n-button type="primary" @click="submitHardwareForm">保存</n-button>
         </n-form>
       </n-tab-pane>
     </n-tabs>
@@ -339,15 +339,21 @@ async function createInventoryExtra(value: any) {
 
 const submitHardwareForm = async (e: MouseEvent) => {
   // Handle form submission logic here
-  await createHardware(formModel.value)
-  await createAsinEntries(formModel.value)
+  let hardware = await createHardware(formModel.value)
+  let asin = await createAsinEntries(formModel.value)
+  if (hardware && asin ) {
+    $message.success("保存硬件信息成功")
+  }
 
 
 };
 
 const submitCostForm = async () => {
   // Handle form submission logic here
-  await createInventoryExtra(formCostModel.value)
+  let result = await createInventoryExtra(formCostModel.value)
+  if (result) {
+    $message.success("保存采购信息成功")
+  }
 };
 
 
