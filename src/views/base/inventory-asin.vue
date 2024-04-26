@@ -23,7 +23,7 @@ import { request } from '@/utils';
 import { DataTableColumns, NButton, NInput } from 'naive-ui';
 import { h, onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
-import  AddAsin from './addAsin.vue'
+import  AddAsin from './addAsinForm.vue'
 const router = useRouter();
 
 const errMessage = ref('缺少upc, 请从库存页面进入')
