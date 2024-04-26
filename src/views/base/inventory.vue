@@ -20,11 +20,11 @@ const router = useRouter();
 
 const columns: DataTableColumns = [
   { key: 'upc', title: 'UPC', width: 200 },
-  { key: 'product', title: 'Product', width: 500 },
-  { key: 'qty', title: 'Qty', width: 50 },
-  { key: 'wh_id', title: 'WH ID' },
+  { key: 'product', title: '产品', width: 500 },
+  { key: 'qty', title: '数量', width: 50 },
+  { key: 'wh_id', title: '仓库' },
   {
-    title: 'Action',
+    title: '操作',
     key: 'actions',
     render(row) {
       if (row.isLeaf == false) {
@@ -101,7 +101,7 @@ const summary_columns: DataTableColumns = [
     title: "ASIN",
   },
   {
-    key: "operatingSystem",
+    key: "系统",
     title: "Spec",
     render(row, index) {
       return `${row.memory}-${row.disk}-${row.operatingSystem}`

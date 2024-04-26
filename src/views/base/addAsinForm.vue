@@ -50,19 +50,19 @@ async function addRow(row) {
 <template>
         <div>
                 <NForm :model="form">
-                        <NFormItem path="memeory" label="memory">
+                        <NFormItem path="memeory" label="内存(GB)">
                                 <NInput v-model:value="form.memory" />
                         </NFormItem>
-                        <NFormItem path="disk" label="hardware.disk(GB, 整数)">
+                        <NFormItem path="disk" label="硬盘(GB, 整数)">
                                 <NInput v-model:value="form.disk" />
                         </NFormItem>
-                        <NFormItem path="operatingSystem" label="operating_system">
+                        <NFormItem path="operatingSystem" label="系统">
                                 <NInput v-model:value="form.operatingSystem" />
                         </NFormItem>
                         <NFormItem path="asin" label="asin">
                                 <NInput v-model:value="form.asin" />
                         </NFormItem>
-                        <NFormItem path="comment" label="comment">
+                        <NFormItem path="comment" label="备注">
                                 <NInput v-model:value="form.comment" />
                         </NFormItem>
                 </NForm>

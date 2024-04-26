@@ -42,11 +42,11 @@ function format_disk(size: number) {
 }
 
 const columns: DataTableColumns = [
-  { title: 'mem', key: 'memory' },
-  { title: 'disk', key: 'disk', render(row, index) {
+  { title: '内存', key: 'memory' },
+  { title: '硬盘', key: 'disk', render(row, index) {
     return format_disk(row.disk)
   } },
-  { title: 'operatingSystem', key: 'operatingSystem' },
+  { title: '系统', key: 'operatingSystem' },
   //@ts-ignore
   {
     title: 'ASIN', key: 'asin', render(row: any, index: number) {
@@ -71,7 +71,7 @@ const columns: DataTableColumns = [
       })
     }, },
   {
-    title: "Action",
+    title: "操作",
     key: 'actions',
     width: 400,
     render(row: any) {
