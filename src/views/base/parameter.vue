@@ -13,10 +13,10 @@ const dialogVisible = ref(false)
 const loading = ref(true)
 
 const columns: DataTableColumns = [
-  { title: 'Desc', key: 'description' },
-  { title: 'Name', key: 'name' },
+  { title: '描述', key: 'description' },
+  { title: '变量名', key: 'name' },
   //@ts-ignore
-  { title: 'Value', key: 'value', render(row: Parameter, index: number) {
+  { title: '变量值', key: 'value', render(row: Parameter, index: number) {
       return h(NInput, {
         value: row.value,
         width: 5,
@@ -28,7 +28,7 @@ const columns: DataTableColumns = [
     },
 },
   {
-    title: "Action",
+    title: "操作",
     key: 'actions',
     render(row: any) {
       return h(
