@@ -2,11 +2,19 @@
   <CommonPage show-footer>
     <template #action>
       {{ router.currentRoute.value.query.upc }}
+      <n-button type="primary" @click="addSpecModalVisible=true">
+        <i class="i-material-symbols:add mr-4 text-18" />
+        新增配置
+      </n-button>
+     
     </template>
     <NDataTable :columns="columns" :data="data" :loading="loading" />
     <NModal v-model:show="dialogVisible" title="error" preset="dialog">
       {{  errMessage }}
     </NModal>
+    <NModal v-model:show="addSpecModalVisible" title="addSpecModalVisible=true" preset="dialog">
+      <AddAsin @new-row-added="newRowAdded" />
+      </NModal>
   </CommonPage>
 </template>
 
@@ -15,6 +23,7 @@ import { request } from '@/utils';
 import { DataTableColumns, NButton, NInput } from 'naive-ui';
 import { h, onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
+import  AddAsin from './addAsin.vue'
 const router = useRouter();
 
 const errMessage = ref('缺少upc, 请从库存页面进入')
@@ -22,6 +31,7 @@ const data = ref<any[]>([])
 
 const loading = ref(true)
 const dialogVisible = ref(false)
+const addSpecModalVisible = ref(false)
 
 function format_disk(size: number) {
   if (size < 1024)  {
@@ -129,7 +139,7 @@ async function getUpcAsins(upc: string) {
 
 }
 
-onMounted(async () => {
+async function refreshData() {
   // Retrieve UPC from route query and pre-fill the form field
   let upc = router.currentRoute.value.query.upc as string
   if (upc) {
@@ -147,9 +157,15 @@ onMounted(async () => {
     loading.value = false
   }
 
+}
+
+onMounted(async() => {
+ await refreshData()
 })
 
+async function newRowAdded() {
+  await refreshData()
+  addSpecModalVisible.value = false
+}
 
-
-
-</script>
+</script>./addAsinForm.vue
